@@ -1,0 +1,13 @@
+{% load amedia_tracker_tags %}
+<select id="episode_selector"
+  name="id_episode"
+  hx-get="{% url 'amedia_tracker:episode_detail' %}"
+  hx-trigger="change, load"
+  hx-target="#episode">
+  {% for episode in title.episode.all %}
+      <option value="{{ episode.id }}"
+              {% if episode.number == title.last_watched_episode %} selected {% endif %}>
+        {{ episode.number }}
+      </option>
+  {% endfor %}
+</select>
