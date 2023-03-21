@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  {% load amedia_tracker_tags %}
+  {% run_parse %}
+
+  <div class="container">
+
+    <h1>Отслеживаемые тайтлы:</h1>
+
+    {% if title_list %}
+
+      <table class="table table-striped table-bordered">
+
+        <tr>
+          <th>Название</th>
+          <th>Просмотрено</th>
+          <th>Доступно</th>
+          <th>Запланировано</th>
+        </tr>
+
+        {% for title in title_list %}
+
+          <tr>
+            <th>
+              <a href="{% url "amedia_tracker:title_detail" pk=title.id %}">
+                {{ title.name|get_shorten_name }}
+              </a>
+            </th>
+
+            <th style="color:
+              {% if title.last_available_episode == title.last_watched_episode %}
+                black
+              {% else %}
+                red
+              {% endif %}">
+              {{ title.last_watched_episode }}
+            </th>
+            <th> {{ title.last_available_episode }} </th>
+            <th> {{ title.total_episodes }} </th>
+          </tr>
+
+        {% endfor %}
+
+      </table>
+
+    {% else %}
+      <p>Кина нема</p>
+    {% endif %}
+
+  </div>
+{% endblock %}

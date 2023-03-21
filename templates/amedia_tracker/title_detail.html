@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% load amedia_tracker_tags %}
+  <div>
+    <a href="{% url 'amedia_tracker:title_list' %}">
+      Вернуться к тайтлам
+    </a>
+  </div>
+  <h3>
+    {{ title.name|get_shorten_name }}
+  </h3>
+
+  <label for="id_episode">Эпизод:</label>
+  <label>
+    {% include "partials/episode_selector.html" %}
+  </label>
+
+  <div hx-get="{% url 'amedia_tracker:mark-episode-as-watched' pk=title.id %}"
+       hx-trigger="click"
+       hx-include="#episode_selector"
+       hx-target="#last_watched_episode"
+       style="display: inline-block"
+       class="btn btn-primary">
+    Отметить текущую
+  </div>
+
+  <div id="last_watched_episode" style="display: inline-block">
+   &#10148; {{ title.last_watched_episode }}
+  </div>
+
+  <div id="episode">
+    {% include "partials/episode_detail.html" %}
+  </div>
+{% endblock %}
